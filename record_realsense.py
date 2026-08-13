@@ -1,4 +1,4 @@
-"""Record depth and color streams from two RealSense cameras into BAG files."""
+"""Record depth and color streams from two RealSense cameras into DB3 files."""
 
 import argparse
 import time
@@ -68,12 +68,12 @@ def record_cameras(output_dir: Path, duration: float | None, camera_count: int) 
             config.enable_device(serial)
             config.enable_stream(rs.stream.depth, 848, 480, rs.format.z16, 30)
             config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
-            bag_path = session_dir / f"camera_{index}_{serial}.bag"
-            config.enable_record_to_file(str(bag_path))
+            db_path = session_dir / f"camera_{index}_{serial}.db3"
+            config.enable_record_to_file(str(db_path))
 
             pipelines.append(rs.pipeline(ctx))
             configs.append(config)
-            print(f"Camera {index} will record to {bag_path}")
+            print(f"Camera {index} will record to {db_path}")
 
         for pipeline, config in zip(pipelines, configs):
             pipeline.start(config)
